@@ -8,7 +8,7 @@ app.use(express.json());
 
 // MongoDB connection
 mongoose
-  .connect("mongodb+srv://saurabhdangi03:TWblMYAGWlsIkYDY@cluster0.x5gvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+  .connect("mongodb+srv://saurabhdangi03:twblmyagwlsikydy@cluster0.x5gvj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -22,6 +22,11 @@ const vehicleSchema = new mongoose.Schema({
 });
 
 const Vehicle = mongoose.model("Vehicle", vehicleSchema);
+
+// Root route
+app.get("/", (req, res) => {
+  res.send("Welcome to the Vehicle Parking API");
+});
 
 // API to get all parked vehicles
 app.get("/vehicles", async (req, res) => {
@@ -60,6 +65,11 @@ app.post("/unpark", async (req, res) => {
   } catch (error) {
     res.status(500).send("Error unparking vehicle");
   }
+});
+
+// Catch-all route for undefined endpoints (404)
+app.use((req, res) => {
+  res.status(404).send("Page not found");
 });
 
 const PORT = process.env.PORT || 5000;
